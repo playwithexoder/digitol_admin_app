@@ -1,3 +1,4 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -22,6 +23,18 @@ import 'pages/dashboard_page.dart';
 import 'package:digitol_admin_app/pages/file_preview_page.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  FlutterError.onError = (FlutterErrorDetails details) {
+    FlutterError.presentError(details);
+    debugPrint('🔴 FlutterError: ${details.exception}\n${details.stack}');
+  };
+
+  PlatformDispatcher.instance.onError = (error, stack) {
+    debugPrint('🔴 Unhandled error: $error\n$stack');
+    return true;
+  };
+
   runApp(const ProviderScope(child: DigitolAdminApp()));
 }
 
